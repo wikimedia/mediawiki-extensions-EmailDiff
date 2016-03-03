@@ -1,0 +1,69 @@
+This is the EmailDiff extension for MediaWiki. It will allow 
+sending of text-based diffs in the emails MediaWiki sends when a 
+page changes.
+
+Written by Greg Sabino Mullane, End Point Corporation <greg@endpoint.com>
+
+The full documentation can be found at:
+
+http://www.mediawiki.org/wiki/Extension:EmailDiff
+
+Note that this extension may have serious performance issues on 
+very large sites, where "large" means thousands of users making 
+near-constant edits.
+
+INSTALLATION
+============
+
+This extension will only work on MediaWiki version 1.25 or better.
+
+Unpack the tarball to your MediaWiki 'extensions' folder as usual.
+
+A new hook will need to be added to the file includes/mail/EmailNotification.php
+
+Inside the function sendPersonalized, right before the "return" line, add:
+
+Hooks::run( 'SendPersonalizedNotificationEmail',
+    [ $watchingUser, $this->oldid, $this->title, &$headers, &$this->subject, &$body ] );
+
+Next, add 'EmailDiff' to your list of modules to load inside your LocalSettings.php 
+file via wfLoadExtension:
+
+wfLoadExtension( 'EmailDiff' );
+
+If you need to change any of the configuration values, do so right 
+beneath the wfLoadExtension line. There are currently three 
+configuration values:
+
+* $wgEmailDiffSubjectSuffix
+
+When a diff is included in the email, this is a string that will be added 
+to the end of the subject line. The default is " (diff)". It can be set to 
+an empty string to prevent the subject from being modified.
+
+* $wgEmailDiffCommand
+
+This is the system command that is run to generate the actual diff. 
+The default value should work on most systems and looks like this:
+
+"/usr/bin/diff -u OLDFILE NEWFILE | /usr/bin/tail --lines=+3 > DIFFFILE"
+
+If you need to change it, make sure you keep the UPPERCASE items, which 
+are replaced before the command is run with temporary files.
+
+One final change is needed to make this extension work: you must 
+add the string "$PAGEDIFF" (without the quotes) to the template 
+for outgoing notification emails. This can be done by visiting 
+this page on your wiki: MediaWiki:Enotif_body
+
+The default value for this page is very wordy: it is recommended that you 
+trim it a little bit and add $PAGEDIFF towards the bottom. Here is 
+one possible setting:
+
+Page: $PAGETITLE
+Summary: $PAGESUMMARY $PAGEMINOREDIT
+User: $PAGEEDITOR  Time: $PAGEEDITDATE
+$PAGEDIFF
+
+$NEWPAGE
+
