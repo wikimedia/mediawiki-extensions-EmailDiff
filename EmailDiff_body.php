@@ -8,20 +8,22 @@
  * @author Greg Sabino Mullane <greg@endpoint.com>
  * @link http://www.mediawiki.org/wiki/Extension:EmailDiff Documentation
  *
- * @copyright Copyright © 2015-2016, Greg Sabino Mullane
+ * @copyright Copyright © 2015-2017, Greg Sabino Mullane
  * @license The MIT License  http://opensource.org/licenses/mit-license.php
  */
+
 class EmailDiff {
+
 	static private $emaildiff_text, $emaildiff_subject_original;
 
 	static private $emaildiff_hasdiff = false;
 
 	/**
-	 * SendPersonalizedNotificationEmail hook
+	 * SendNotificationEmail hook
 	 *
 	 * Allows adding text diff to the body of the outgoing email
 	 *
-	 * @param User $watchingUser current user
+	 * @param User $watchingUser current user (null if impersonal)
 	 * @param integer $oldid the old revision id
 	 * @param Title $title current article title
 	 * @param string $header Additional headers - not used by this extension
@@ -29,7 +31,7 @@ class EmailDiff {
 	 * @param string $body Actual email body to be sent
 	 * @return bool
 	 */
-	public static function SendPersonalizedNotificationEmailDiff( $watchingUser, $oldid, $title, &$header, &$subject, &$body ) {
+	public static function SendNotificationEmailDiff( $watchingUser, $oldid, $title, &$header, &$subject, &$body ) {
 		global $wgEmailDiffCommand, $wgEmailDiffSubjectSuffix;
 
 		// Store the original subject line the first time we are called
@@ -42,7 +44,8 @@ class EmailDiff {
 
 		// Only show diffs if the user has set in in their preferences
 		// This will appear in the "Email options" section
-		if ( $watchingUser->getOption( 'enotifshowdiff' ) ) {
+		// watchingUser can be null if this is called via sendImpersonal
+		if ( $watchingUser === null || $watchingUser->getOption( 'enotifshowdiff' ) ) {
 
 			// The goal is to only generate the diff once, no matter how many users we are emailing
 			if ( self::$emaildiff_text === null ) {
@@ -66,7 +69,7 @@ class EmailDiff {
 						// Put the new page text into a temporary file:
 						$new_file = tempnam( $tempdir, 'mediawikiemaildiffnew' );
 						$fh = fopen( $new_file, 'w' ) or die( "Could not open file $new_file" );
-						fwrite( $fh, "$newtext\n" );
+						fputs( $fh, "$newtext\n" );
 						fclose( $fh );
 
 						// Put the old page text into a different temporary file:
@@ -74,7 +77,7 @@ class EmailDiff {
 						$oldtext = $oldrev->getText();
 						$old_file = tempnam( $tempdir, 'mediawikiemaildiffold' );
 						$fh = fopen( $old_file, 'w' ) or die( "Could not open file $old_file" );
-						fwrite( $fh, "$oldtext\n" );
+						fputs( $fh, "$oldtext\n" );
 						fclose( $fh );
 
 						// Create a destination file, then run the diff command
