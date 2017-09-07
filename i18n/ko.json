@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ykhwong"
+		]
+	},
+	"tog-emaildiff": "변경사항의 차이 보내기",
+	"emaildiff-newpage": "이것은 새 문서입니다:\n\n$1",
+	"emaildiff-intro": "판 차이:\n$1"
+}
