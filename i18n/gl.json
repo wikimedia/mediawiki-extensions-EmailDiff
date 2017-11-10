@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Elisardojm"
+		]
+	},
+	"emaildiff-newpage": "Esta é unha páxina nova:\n\n$1",
+	"emaildiff-intro": "Diferenzas da versión:\n$1"
+}
