@@ -1,12 +1,12 @@
-This is the EmailDiff extension for MediaWiki. It will allow 
-sending of text-based diffs in the emails MediaWiki sends when a 
+This is the EmailDiff extension for MediaWiki. It will allow
+sending of text-based diffs in the emails MediaWiki sends when a
 page changes.
 
 Written by Greg Sabino Mullane, End Point Corporation <greg@endpoint.com>
 
 The full documentation can be found at:
 
-http://www.mediawiki.org/wiki/Extension:EmailDiff
+https://www.mediawiki.org/wiki/Extension:EmailDiff
 
 This extension will only work on MediaWiki version 1.25 or better.
 
@@ -37,41 +37,41 @@ Hooks::run( 'SendNotificationEmail',
 
 3. Modify LocalSettings.php
 
-Next, add 'EmailDiff' to your list of modules to load inside your LocalSettings.php 
+Next, add 'EmailDiff' to your list of modules to load inside your LocalSettings.php
 file via wfLoadExtension:
 
 wfLoadExtension( 'EmailDiff' );
 
-If you need to change any of the configuration values, do so right 
-beneath the wfLoadExtension line. There are currently two 
+If you need to change any of the configuration values, do so right
+beneath the wfLoadExtension line. There are currently two
 configuration values:
 
 * $wgEmailDiffSubjectSuffix
 
-When a diff is included in the email, this is a string that will be added 
-to the end of the subject line. The default is " (diff)". It can be set to 
+When a diff is included in the email, this is a string that will be added
+to the end of the subject line. The default is " (diff)". It can be set to
 an empty string to prevent the subject from being modified.
 
 * $wgEmailDiffCommand
 
-This is the system command that is run to generate the actual diff. 
+This is the system command that is run to generate the actual diff.
 The default value should work on most systems and looks like this:
 
 "/usr/bin/diff -u OLDFILE NEWFILE | /usr/bin/tail --lines=+3 > DIFFFILE"
 
-If you need to change it, make sure you keep the UPPERCASE items, which 
+If you need to change it, make sure you keep the UPPERCASE items, which
 are replaced before the command is run with temporary files.
 
 
 4. Modify the outgoing email template
 
-One final change is needed to make this extension work: you must 
-add the string "$PAGEDIFF" (without the quotes) to the template 
-for outgoing notification emails. This can be done by visiting 
+One final change is needed to make this extension work: you must
+add the string "$PAGEDIFF" (without the quotes) to the template
+for outgoing notification emails. This can be done by visiting
 this page on your wiki: MediaWiki:Enotif_body
 
-The default value for this page is very wordy: it is recommended that you 
-trim it a little bit and add $PAGEDIFF towards the bottom. Here is 
+The default value for this page is very wordy: it is recommended that you
+trim it a little bit and add $PAGEDIFF towards the bottom. Here is
 one possible setting:
 
 Page: $PAGETITLE
@@ -83,13 +83,13 @@ $NEWPAGE
 
 5. Set users to view diffs
 
-If you are using "impersonal" emails by setting $wgEnotifImpersonal true in your LocalSettings.php, 
+If you are using "impersonal" emails by setting $wgEnotifImpersonal true in your LocalSettings.php,
 then everyone will receive a diff.
 
-Otherwise, users must set their preferences to receive email diffs. Go to Preferences, then 
+Otherwise, users must set their preferences to receive email diffs. Go to Preferences, then
 find the "Email options" section and select "Send a diff of changes"
 
-Alternatively, you can simpy turn this on for all users by adding the 
+Alternatively, you can simpy turn this on for all users by adding the
 following line to your LocalSettings.php file:
 
 $wgDefaultUserOptions['enotifshowdiff'] = true;
@@ -106,8 +106,8 @@ Add this to your LocalSettings.php file:
 
 $wgEnotifSelfEdits = true;
 
-Edit the file includes/mail/EmailNotification.php. Find the function actuallyNotifyOnPageChange, 
-then add $wgEnotifSelfEdits to the list of global variables at the top of the function. It should 
+Edit the file includes/mail/EmailNotification.php. Find the function actuallyNotifyOnPageChange,
+then add $wgEnotifSelfEdits to the list of global variables at the top of the function. It should
 look similar to this after the change:
 
   global $wgEnotifMinorEdits, $wgEnotifUserTalk, $wgEnotifSelfEdits;
@@ -115,14 +115,14 @@ look similar to this after the change:
 Search for the string 'editor->getName', and change this block of code:
 
   if ( $editor->getName() == $name ) {
-    // No point notifying the user that actually made the change!                                                                                                                   
+    // No point notifying the user that actually made the change!
     continue;
   }
 
 into this:
 
   if ( $editor->getName() == $name && ! $wgEnotifSelfEdits) {
-    // No point notifying the user that actually made the change!                                                                                                                   
+    // No point notifying the user that actually made the change!
     continue;
   }
 
@@ -131,16 +131,16 @@ You should now receive emails on every change, even those done yourself.
 
 * Do not receive emails when a bot makes an edit
 
-It can be a pain if your username is inside $wgUsersNotifiedOnAllChanges and 
-a bot comes along and updates hundreds of pages at once. The best way to 
+It can be a pain if your username is inside $wgUsersNotifiedOnAllChanges and
+a bot comes along and updates hundreds of pages at once. The best way to
 prevent this is to restrict email to non-bots only.
 
 Add this to your LocalSettings.php file:
 
 $wgEnotifBotEdits = false;
 
-Edit the file includes/mail/EmailNotification.php. Find the function notifyOnPageChange, 
-then add $wgEnotifBotEdits to the list of global variables at the top of the function. It should 
+Edit the file includes/mail/EmailNotification.php. Find the function notifyOnPageChange,
+then add $wgEnotifBotEdits to the list of global variables at the top of the function. It should
 look similar to this after the change:
 
   global $wgEnotifMinorEdits, $wgUsersNotifiedOnAllChanges, $wgEnotifUserTalk, $wgEnotifBotEdits;

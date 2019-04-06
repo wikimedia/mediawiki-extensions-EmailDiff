@@ -6,7 +6,7 @@
  * @file
  * @ingroup Extensions
  * @author Greg Sabino Mullane <greg@endpoint.com>
- * @link http://www.mediawiki.org/wiki/Extension:EmailDiff Documentation
+ * @link https://www.mediawiki.org/wiki/Extension:EmailDiff Documentation
  *
  * @copyright Copyright © 2015-2017, Greg Sabino Mullane
  * @license The MIT License  http://opensource.org/licenses/mit-license.php
