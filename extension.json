@@ -16,12 +16,8 @@
 		"EmailDiff": "EmailDiff_body.php"
 	},
 	"Hooks": {
-		"SendNotificationEmail": [
-			"EmailDiff::SendNotificationEmailDiff"
-		],
-		"GetPreferences": [
-			"EmailDiff::SetEmailDiffPref"
-		]
+		"SendNotificationEmail": "EmailDiff::SendNotificationEmailDiff",
+		"GetPreferences": "EmailDiff::SetEmailDiffPref"
 	},
 	"MessagesDirs": {
 		"EmailDiff": [
