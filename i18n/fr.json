@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Wladek92",
-			"Gomoko"
+			"Gomoko",
+			"Wladek92"
 		]
 	},
 	"emaildiff-desc": "Permettre l’envoi de différences de textes dans les courriels de notification",

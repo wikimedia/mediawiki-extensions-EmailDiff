@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Elisardojm",
-			"Banjo"
+			"Banjo",
+			"Elisardojm"
 		]
 	},
 	"emaildiff-desc": "Permitir o envío de diferencias de texto nos correos electrónicos de notificación",

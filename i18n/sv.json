@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"WikiPhoenix",
-			"Skalman"
+			"Skalman",
+			"WikiPhoenix"
 		]
 	},
 	"emaildiff-desc": "Gör det möjligt att skicka textdiffar i aviseringar via e-post",
