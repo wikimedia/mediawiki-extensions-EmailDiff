@@ -9,14 +9,14 @@
  * @link https://www.mediawiki.org/wiki/Extension:EmailDiff Documentation
  *
  * @copyright Copyright © 2015-2017, Greg Sabino Mullane
- * @license The MIT License  http://opensource.org/licenses/mit-license.php
+ * @license MIT
  */
 
 class EmailDiff {
 
-	static private $emaildiff_text, $emaildiff_subject_original;
+	private static $emaildiff_text, $emaildiff_subject_original;
 
-	static private $emaildiff_hasdiff = false;
+	private static $emaildiff_hasdiff = false;
 
 	/**
 	 * SendNotificationEmail hook
@@ -24,11 +24,11 @@ class EmailDiff {
 	 * Allows adding text diff to the body of the outgoing email
 	 *
 	 * @param User $watchingUser current user (null if impersonal)
-	 * @param integer $oldid the old revision id
+	 * @param int $oldid the old revision id
 	 * @param Title $title current article title
-	 * @param string $header Additional headers - not used by this extension
-	 * @param string $subject Subject line
-	 * @param string $body Actual email body to be sent
+	 * @param string &$header Additional headers - not used by this extension
+	 * @param string &$subject Subject line
+	 * @param string &$body Actual email body to be sent
 	 * @return bool
 	 */
 	public static function SendNotificationEmailDiff( $watchingUser, $oldid, $title, &$header, &$subject, &$body ) {
@@ -68,7 +68,7 @@ class EmailDiff {
 
 						// Put the new page text into a temporary file:
 						$new_file = tempnam( $tempdir, 'mediawikiemaildiffnew' );
-						$fh = fopen( $new_file, 'w' ) or die( "Could not open file $new_file" );
+						$fh = fopen( $new_file, 'w' ) || die( "Could not open file $new_file" );
 						fputs( $fh, "$newtext\n" );
 						fclose( $fh );
 
@@ -76,16 +76,17 @@ class EmailDiff {
 						$oldrev = Revision::newFromId( $oldid );
 						$oldtext = $oldrev->getText();
 						$old_file = tempnam( $tempdir, 'mediawikiemaildiffold' );
-						$fh = fopen( $old_file, 'w' ) or die( "Could not open file $old_file" );
+						$fh = fopen( $old_file, 'w' ) || die( "Could not open file $old_file" );
 						fputs( $fh, "$oldtext\n" );
 						fclose( $fh );
 
 						// Create a destination file, then run the diff command
 						$diff_file = tempnam( $tempdir, 'mediawikiemaildiff' );
 						$diffcom = str_replace(
-							array( 'OLDFILE', 'NEWFILE', 'DIFFFILE' ),
-							array( "$old_file", "$new_file", "$diff_file" ),
+							[ 'OLDFILE', 'NEWFILE', 'DIFFFILE' ],
+							[ "$old_file", "$new_file", "$diff_file" ],
 							$wgEmailDiffCommand );
+						// phpcs:ignore MediaWiki.Usage.ForbiddenFunctions.system
 						system( $diffcom );
 
 						// Put the generated diff into our variable
@@ -123,15 +124,15 @@ class EmailDiff {
 	 * Puts a new preference in the "User profile / Email options" section
 	 *
 	 * @param User $user current user
-	 * @param array $prefs list of default user preference controls
+	 * @param array &$prefs list of default user preference controls
 	 * @return bool
 	 */
 	public static function SetEmailDiffPref( $user, &$prefs ) {
-		$prefs['enotifshowdiff'] = array(
+		$prefs['enotifshowdiff'] = [
 			'type' => 'toggle',
 			'section' => 'personal/email',
 			'label-message' => 'tog-emaildiff'
-		);
+		];
 
 		return true;
 	}

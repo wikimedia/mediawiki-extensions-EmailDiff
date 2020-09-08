@@ -13,7 +13,7 @@
 		"MediaWiki": ">= 1.25.0"
 	},
 	"AutoloadClasses": {
-		"EmailDiff": "EmailDiff_body.php"
+		"EmailDiff": "EmailDiff.php"
 	},
 	"Hooks": {
 		"SendNotificationEmail": "EmailDiff::SendNotificationEmailDiff",
