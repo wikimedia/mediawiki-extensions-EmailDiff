@@ -12,6 +12,8 @@
  * @license MIT
  */
 
+use MediaWiki\MediaWikiServices;
+
 class EmailDiff {
 
 	private static $emaildiff_text, $emaildiff_subject_original;
@@ -45,7 +47,8 @@ class EmailDiff {
 		// Only show diffs if the user has set in in their preferences
 		// This will appear in the "Email options" section
 		// watchingUser can be null if this is called via sendImpersonal
-		if ( $watchingUser === null || $watchingUser->getOption( 'enotifshowdiff' ) ) {
+		$userOptionsManager = MediaWikiServices::getInstance()->getUserOptionsManager();
+		if ( $watchingUser === null || $userOptionsManager->getOption( $watchingUser, 'enotifshowdiff' ) ) {
 
 			// The goal is to only generate the diff once, no matter how many users we are emailing
 			if ( self::$emaildiff_text === null ) {

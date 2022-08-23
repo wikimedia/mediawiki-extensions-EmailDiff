@@ -10,7 +10,7 @@
 	"descriptionmsg": "emaildiff-desc",
 	"license-name": "MIT",
 	"requires": {
-		"MediaWiki": ">= 1.25.0"
+		"MediaWiki": ">= 1.35.0"
 	},
 	"AutoloadClasses": {
 		"EmailDiff": "EmailDiff.php"
