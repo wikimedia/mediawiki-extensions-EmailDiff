@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"emaildiff-desc": "Omogoča pošiljanje besedilnih razlik v obvestilnih e-pismih",
+	"tog-emaildiff": "Pošlji razliko sprememb",
+	"emaildiff-newpage": "To je nova stran:\n\n$1",
+	"emaildiff-intro": "Razlika redakcij:\n$1"
+}
