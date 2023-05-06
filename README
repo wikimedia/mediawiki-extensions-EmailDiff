@@ -25,13 +25,13 @@ A new hook may need to be added in two places inside the file includes/mail/Emai
 
 Inside the function sendPersonalized, right before the "return" line, add:
 
-Hooks::run( 'SendNotificationEmail',
+\MediaWiki\MediaWikiServices::getInstance()->getHookContainer()->run( 'SendNotificationEmail',
     [ $watchingUser, $this->oldid, $this->title, &$headers, &$this->subject, &$body ] );
 
 Inside the function sendImpersonal, right before the "return" line, add:
 
 $headers = [];
-Hooks::run( 'SendNotificationEmail',
+\MediaWiki\MediaWikiServices::getInstance()->getHookContainer()->run( 'SendNotificationEmail',
     [ null, $this->oldid, $this->title, &$headers, &$this->subject, &$body ] );
 
 
