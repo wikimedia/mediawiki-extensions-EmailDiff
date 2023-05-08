@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mehtab ahmed"
+		]
+	},
+	"emaildiff-desc": "اطلاع ايميلن ۾ متن جي تفاوتن کي موڪلڻ جي اجازت ڏيو",
+	"tog-emaildiff": "تبديلين جو تفاوت موڪليو",
+	"emaildiff-newpage": "ھي ھڪ نئون صفحو آھي:\n\n$1",
+	"emaildiff-intro": "ورزن ۾ تفاوت:\n$1"
+}
