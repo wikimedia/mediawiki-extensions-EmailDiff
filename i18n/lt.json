@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nokeoo"
+		]
+	},
+	"emaildiff-newpage": "Tai naujas puslapis:\n\n$1",
+	"emaildiff-intro": "Versijų skirtumai:\n$1"
+}
